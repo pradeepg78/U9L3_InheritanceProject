@@ -1,10 +1,22 @@
 import java.util.UUID;
+import java.util.ArrayList;
 
-public class VolumeGroup extends SuperClass{
-    public VolumeGroup(String name, UUID UUID)
+public class VolumeGroup extends SuperClass {
+    private ArrayList<PhysicalVolume> pvs;
+    private ArrayList<LogicalVolume> lvs;
+
+    public VolumeGroup(String name)
     {
-        super(name, UUID);
+        super(name, UUID.randomUUID());
     }
 
+    public int getVGSize()
+    {
+        for (int i = 0; i < pvs.size(); i++)
+        {
+
+        }
+    }
 
 }
+
