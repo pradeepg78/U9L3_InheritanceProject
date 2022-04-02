@@ -1,7 +1,6 @@
-import java.util.ArrayList;
 import java.util.UUID;
 
-public class PhysicalVolume extends SuperClass{
+public class PhysicalVolume extends LVMSystem {
     private String hardDriveLocation;
 
     public PhysicalVolume(String name, String hardDriveLocation) {

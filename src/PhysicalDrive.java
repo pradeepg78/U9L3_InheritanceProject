@@ -1,9 +1,10 @@
-import java.util.ArrayList;
+import java.util.*;
 
 public class PhysicalDrive {
     private String name;
     private int gb;
-    private ArrayList<String> hardDrives;
+    private PhysicalVolume pv;
+    //private ArrayList<String> hardDrives;
 
     public PhysicalDrive(String name,int gb) {
         this.name = name;
@@ -18,6 +19,15 @@ public class PhysicalDrive {
         return gb;
     }
 
+    public PhysicalVolume getPv() { return pv; }
+
+    public void setPv(PhysicalVolume nPv)
+    {
+        pv = nPv;
+    }
+
+
+    /*
     public ArrayList<String> getHardDrives() {
         return hardDrives;
     }
@@ -36,7 +46,7 @@ public class PhysicalDrive {
                 break;
             }
         }
-    }
+    } */
 
 
 }

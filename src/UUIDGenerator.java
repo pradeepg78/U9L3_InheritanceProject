@@ -1,4 +1,4 @@
-import java.util.UUID;
+import java.util.*;
 
 public class UUIDGenerator {
     public static void main(String[] args) {

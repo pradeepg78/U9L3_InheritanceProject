@@ -1,7 +1,7 @@
 import java.util.UUID;
 import java.util.ArrayList;
 
-public class VolumeGroup extends SuperClass {
+public class VolumeGroup extends LVMSystem {
     private ArrayList<PhysicalVolume> pvs;
     private ArrayList<LogicalVolume> lvs;
 
