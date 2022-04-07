@@ -1,21 +1,50 @@
-import java.util.UUID;
-import java.util.ArrayList;
+import java.util.*;
 
 public class VolumeGroup extends LVMSystem {
-    private ArrayList<PhysicalVolume> pvs;
-    private ArrayList<LogicalVolume> lvs;
+    private int totalSpace;
+    private int availableSpace;
+    private ArrayList<PhysicalVolume> pvList = new ArrayList<PhysicalVolume>();
+    private ArrayList<LogicalVolume> lvList = new ArrayList<LogicalVolume>();
 
-    public VolumeGroup(String name)
+    public VolumeGroup(String name, PhysicalVolume pv)
     {
-        super(name, UUID.randomUUID());
+        super(name);
+        totalSpace = pv.getGb();
+        availableSpace = pv.getGb();
+        pvList.add(pv);
     }
 
-    public int getVGSize()
+    public int getTotalSpace()
     {
-        for (int i = 0; i < pvs.size(); i++)
-        {
+        return totalSpace;
+    }
 
-        }
+    public int getAvailableSpace()
+    {
+        return availableSpace;
+    }
+
+    public ArrayList<PhysicalVolume> getPvList()
+    {
+        return pvList;
+    }
+
+    public void addPv (PhysicalVolume pv)
+    {
+        pvList.add(pv);
+        totalSpace += pv.getGb();
+        availableSpace += pv.getGb();
+    }
+
+    public ArrayList<LogicalVolume> getLvList()
+    {
+        return lvList;
+    }
+
+    public void addLv(LogicalVolume lv)
+    {
+        lvList.add(lv);
+        availableSpace -= lv.getGb();
     }
 
 }
