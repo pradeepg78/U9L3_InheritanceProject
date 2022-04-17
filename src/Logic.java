@@ -143,7 +143,7 @@ public class Logic {
                     break;
                 }
             }
-            if(duplicate == false){
+            if(!duplicate){
                 boolean pvFound = false;
                 for(int i = 0; i < pdList.size(); i++){
                     if(pvList.get(i).getName().equals(pvName) && pvList.get(i).getVg() != null){
@@ -158,7 +158,7 @@ public class Logic {
                         pvFound = true;
                     }
                 }
-                if(pvFound == false){
+                if(!pvFound){
                     System.out.println("There is no physical volume named " + pvName);
                 }
             }
@@ -175,7 +175,7 @@ public class Logic {
 
         VolumeGroup VG = null;
         PhysicalVolume PV = null;
-        int PVListSize = pvList.size();
+        //int PVListSize = pvList.size();
 
         if (vgList.size() != 0 && pvList.size() != 0) {
             boolean foundVG = false;
@@ -187,14 +187,14 @@ public class Logic {
             }
             if (foundVG) {
                 boolean add = false;
-                for (PhysicalVolume physicalVolume : pvList) {
-                    if (physicalVolume.getName().equals(pvName) && physicalVolume.getVg() == null) {
-                        PV = physicalVolume;
+                for(int i = 0; i < pvList.size(); i++){
+                    if(pvList.get(i).getVg() != null && pvList.get(i).getName().equals(pvName)){
+                        System.out.println("This Physical Volume is already in Volume Group " + pvList.get(i).getVg().getName());
+                        break;
+                    }
+                    else if(pvList.get(i).getVg() == null && pvList.get(i).getName().equals(pvName)){
                         add = true;
-                        break;
-                    } else if (physicalVolume.getName().equals(pvName) && physicalVolume.getVg() != null) {
-                        System.out.println("ERROR: Your Proposed PV is already part of " + physicalVolume.getVg().getName());
-                        break;
+                        PV = pvList.get(i);
                     }
                 }
                 if (add) {
@@ -335,9 +335,7 @@ public class Logic {
             e.printStackTrace();
         }
     }
-
  */
-
     }
 }
 
