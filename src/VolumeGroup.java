@@ -9,42 +9,39 @@ public class VolumeGroup extends LVMSystem {
     public VolumeGroup(String name, PhysicalVolume pv)
     {
         super(name);
-        totalSpace = pv.getGb();
-        availableSpace = pv.getGb();
         pvList.add(pv);
+        totalSpace = pv.getPd().getGb();
+        availableSpace = pv.getPd().getGb();
+
     }
 
-    public int getTotalSpace()
-    {
+    public int getTotalSpace() {
         return totalSpace;
     }
 
-    public int getAvailableSpace()
-    {
+    public int getAvailableSpace() {
         return availableSpace;
     }
 
-    public ArrayList<PhysicalVolume> getPvList()
-    {
+    public ArrayList<PhysicalVolume> getPvList() {
         return pvList;
     }
 
     public void addPv (PhysicalVolume pv)
     {
         pvList.add(pv);
-        totalSpace += pv.getGb();
-        availableSpace += pv.getGb();
+        totalSpace += pv.getPd().getGb();
+        availableSpace += pv.getPd().getGb();
     }
 
-    public ArrayList<LogicalVolume> getLvList()
-    {
+    public ArrayList<LogicalVolume> getLvList() {
         return lvList;
     }
 
     public void addLv(LogicalVolume lv)
     {
         lvList.add(lv);
-        availableSpace -= lv.getGb();
+        availableSpace = availableSpace - lv.getGb();
     }
 
 }

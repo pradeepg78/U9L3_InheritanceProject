@@ -1,5 +1,4 @@
 public class LogicalVolume extends LVMSystem {
-    //private VolumeGroup vol;
     private int gb;
 
     public LogicalVolume(String name, int gb)
@@ -8,6 +7,8 @@ public class LogicalVolume extends LVMSystem {
         this.gb = gb;
     }
 
-    public int getGb() { return gb; }
+    public int getGb() {
+        return gb;
+    }
 
 }

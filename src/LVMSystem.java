@@ -9,14 +9,15 @@ public class LVMSystem {
         UUID = UUID.randomUUID();
     }
 
-    public UUID getUUID() { return UUID; }
+    public UUID getUUID() {
+        return UUID;
+    }
 
     public String getName() {
         return name;
     }
 
-    public void setUUID(UUID nUUID)
-    {
+    public void setUUID(UUID nUUID) {
         UUID = nUUID;
     }
 
