@@ -134,15 +134,21 @@ public class Logic {
         String vgName = rest.substring(0, rest.indexOf(" "));
         String pvName = rest.substring(rest.indexOf(" ") + 1);
 
+        //first if-statement
         if(pvList.size() != 0){
             boolean duplicate = false;
             for(int i = 0; i < vgList.size(); i++){
+
+                //second if-statement
                 if(vgList.get(i).getName().equals(vgName)){
                     duplicate = true;
+                    //System.out.println("Duplicate Status (second if statement): " + duplicate);
                     System.out.println("There is already a Volume Group with the name " + vgName);
                     break;
                 }
             }
+
+
             if(!duplicate){
                 boolean pvFound = false;
                 for(int i = 0; i < pdList.size(); i++){
