@@ -4,7 +4,7 @@
 
 
 2. Physical Volume
-    --each has only ONE physical hard drive
+    --each has only ONE physical hard drive (must be created with hard drive)
     --each has a UUID when created
     --can be added to a Volume group
     --unique name
@@ -13,16 +13,19 @@
 3. Volume Group
     --has UUID
     --User provided unique name
+    --list of Physical Volumes and Logical Volumes
+    --TOTAL SIZE: add up all PVs
+    --AVAILABLE SPACE: subtract each LV
 
 
 4. Logical Volume
     --size
     --UUID
     --User provided name
-    --Associated volume group
+    --Associated volume group (CANNOT exist without VG)
+    --If there is no space, LV cannot be created
+    --If a user tries to create a logical volume FIRST, it should return error because an LV needs to have a Volume Group beforehand
 
-    -if a user tries to create a logical volume FIRST, it should return error because an LV needs to have a Volume Group beforehand
-    -subtract LV from VG to get remaining storage left
 
 
 
