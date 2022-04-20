@@ -8,25 +8,9 @@ public class Logic {
     private ArrayList<VolumeGroup> vgList = new ArrayList<VolumeGroup>();
     private ArrayList<LogicalVolume> lvList = new ArrayList<LogicalVolume>();
 
-  /*  public ArrayList<PhysicalDrive> getPdList() {
-        return pdList;
-    }
-
-    public ArrayList<PhysicalVolume> getPvList() {
-        return pvList;
-    }
-
-    public ArrayList<VolumeGroup> getVgList() {
-        return vgList;
-    }
-
-    public ArrayList<LogicalVolume> getLvList() {
-        return lvList;
-    } */
-
     public void listDrives() {
         if (pdList.size() == 0) {
-            System.out.println("You have not installed any hard drives.");
+            System.out.println("ERROR: You have not installed any hard drives.");
         }
         for (PhysicalDrive physicalDrive : pdList) {
             System.out.println(physicalDrive.getName() + " [" + physicalDrive.getGb() + "G]");
@@ -35,10 +19,10 @@ public class Logic {
 
     public void listPVS() {
         if (pvList.size() == 0) {
-            System.out.println("You have not created any Physical Volumes.");
+            System.out.println("ERROR: You have not created any Physical Volumes.");
         }
         for (PhysicalVolume physicalVolume : pvList) {
-            System.out.println(physicalVolume.getName());
+            System.out.print(physicalVolume.getName() + ":");
             System.out.print("[" + physicalVolume.getPd().getGb() + "] ");
             if (physicalVolume.getVg() != null) {
                 System.out.print("[" + physicalVolume.getVg().getName() + "] ");
@@ -50,7 +34,7 @@ public class Logic {
 
     public void listVGS() {
         if (vgList.size() == 0) {
-            System.out.println("You have not created any Volume Groups.");
+            System.out.println("ERROR: You have not created any Volume Groups.");
         }
         for (VolumeGroup volumeGroup : vgList) {
             System.out.print(volumeGroup.getName() + ": ");
@@ -86,7 +70,7 @@ public class Logic {
             System.out.println("Drive " + name + " has been successfully installed. ");
         } else {
             System.out.println();
-            System.out.println("This drive has already been installed. ");
+            System.out.println("ERROR: This drive has already been installed. ");
             System.out.println();
         }
     }
@@ -101,7 +85,7 @@ public class Logic {
             for (int i = 0; i < pvList.size(); i++) {
                 if (pvName.equals(pvList.get(i).getName())) {
                     duplicate = true;
-                    System.out.println("There is already a Physical Volume with the name " + pvName + " installed.");
+                    System.out.println("ERROR: There is already a Physical Volume with the name " + pvName + " installed.");
                     break;
                 }
             }
@@ -109,7 +93,7 @@ public class Logic {
                 boolean pdFound = false;
                 for (int i = 0; i < pdList.size(); i++) {
                     if (pdList.get(i).getPv() != null && pdList.get(i).getName().equals(pdName)) {
-                        System.out.println("This hard drive is already associated with another Physical Volume. ");
+                        System.out.println("ERROR: This hard drive is already associated with another Physical Volume. ");
                         pdFound = true;
                     }
                     if (pdList.get(i).getPv() == null && pdList.get(i).getName().equals(pdName)) {
@@ -121,11 +105,11 @@ public class Logic {
                     }
                 }
                 if (!pdFound) {
-                    System.out.println("There is no hard drive named " + pdName + ".");
+                    System.out.println("ERROR: There is no hard drive named " + pdName + ".");
                 }
             }
         } else {
-            System.out.println("You currently do not have any Physical Drives installed.");
+            System.out.println("ERROR: You have not installed any Physical Volumes.");
         }
     }
 
@@ -143,7 +127,7 @@ public class Logic {
                 if(vgList.get(i).getName().equals(vgName)){
                     duplicate = true;
                     //System.out.println("Duplicate Status (second if statement): " + duplicate);
-                    System.out.println("There is already a Volume Group with the name " + vgName);
+                    System.out.println("ERROR: There is already a Volume Group with the name " + vgName + ".");
                     break;
                 }
             }
@@ -153,7 +137,7 @@ public class Logic {
                 boolean pvFound = false;
                 for(int i = 0; i < pdList.size(); i++){
                     if(pvList.get(i).getName().equals(pvName) && pvList.get(i).getVg() != null){
-                        System.out.println("This Physical volume is already in Volume Group " + pvList.get(i).getVg().getName());
+                        System.out.println("ERROR: This Physical volume is already in Volume Group " + pvList.get(i).getVg().getName() + ".");
                         pvFound = true;
                     }
                     if(pvList.get(i).getVg() == null && pvList.get(i).getName().equals(pvName)){
@@ -165,70 +149,80 @@ public class Logic {
                     }
                 }
                 if(!pvFound){
-                    System.out.println("There is no physical volume named " + pvName);
+                    System.out.println("ERROR: There is no physical volume named " + pvName + ".");
                 }
             }
         }
         else{
-            System.out.println("You do not have any physical volumes created");
+            System.out.println("ERROR: You do not have any physical volumes created");
         }
     }
 
     public void extendVG(String c) {
         String rest = c.substring(9);
-        String vgName = rest.substring(0, rest.indexOf(" "));
-        String pvName = rest.substring(rest.indexOf(" "));
+        String vgName = rest.substring(0,rest.indexOf(" "));
+        String pvName = rest.substring(rest.indexOf(" ") + 1);
 
-        VolumeGroup VG = null;
-        PhysicalVolume PV = null;
-        //int PVListSize = pvList.size();
+        VolumeGroup VolG = null;
+        PhysicalVolume PhysV = null;
 
-        if (vgList.size() != 0 && pvList.size() != 0) {
-            boolean foundVG = false;
-            for (VolumeGroup volumeGroup : vgList) {
-                if (volumeGroup.getName().equals(vgName)) {
-                    foundVG = true;
-                    VG = volumeGroup;
+        if(vgList.size() != 0 && pvList.size() != 0){
+            boolean vgFound = false;
+            for(int i = 0; i < vgList.size(); i++){
+                if(vgList.get(i).getName().equals(vgName)){
+                    vgFound = true;
+                    VolG = vgList.get(i);
                 }
             }
-            if (foundVG) {
+
+            if(vgFound == true){
                 boolean add = false;
                 for(int i = 0; i < pvList.size(); i++){
                     if(pvList.get(i).getVg() != null && pvList.get(i).getName().equals(pvName)){
-                        System.out.println("This Physical Volume is already in Volume Group " + pvList.get(i).getVg().getName());
+                        System.out.println("ERROR: This Physical Volume is already in Volume Group " + pvList.get(i).getVg().getName() + ".");
                         break;
                     }
                     else if(pvList.get(i).getVg() == null && pvList.get(i).getName().equals(pvName)){
                         add = true;
-                        PV = pvList.get(i);
+                        PhysV = pvList.get(i);
                     }
                 }
-                if (add) {
-                    for (int i = 0; i < VG.getPvList().size(); i++) {
-                        if (VG.getPvList().get(i).getName().equals(pvName)) {
+
+                if(add == true){
+                    for(int i = 0; i < VolG.getPvList().size(); i++){
+                        if(VolG.getPvList().get(i).getName().equals(pvName)){
                             add = false;
                         }
                     }
-                    if (add) {
-                        System.out.println("Successfully extended PV " + pvName + " to VG " + vgName);
-                        VG.addPv(PV);
-                        PV.setVg(VG);
-                    } else {
-                        System.out.println("ERROR: PV " + pvName + " is already in this VG (" + vgName + ")!");
+
+                    if(add == true){
+                        VolG.addPv(PhysV);
+                        PhysV.setVg(VolG);
+                        System.out.println("Physical Volume " + pvName + " successfully extended to Volume Group " + vgName + ".");
                     }
-                } else {
-                    System.out.println("ERROR: There are no PVs named" + pvName);
+                    else {
+                        System.out.println("ERROR: This Physical Volume is already in Volume Group " + vgName + ".");
+                    }
+
                 }
-            } else {
-                System.out.println("ERROR: There are no VGs named" + vgName);
+                else{
+                    System.out.println("ERROR: There is no Physical Volume named " + pvName + ".");
+                }
             }
-        } else {
-            if (vgList.size() == 0 && pvList.size() == 0) {
-                System.out.println("ERROR: There is are no VGs created to extend from and PVs created to add to");
-            } else if (vgList.size() == 0) {
-                System.out.println("ERROR: There are no VGs created to extend from");
-            } else {
-                System.out.println("ERROR: There are no PVs created to add to");
+            else{
+                System.out.println("ERROR: There are no Volume Groups named " + vgName + ".");
+            }
+
+        }
+        else{
+            if(vgList.size() == 0 && pvList.size() == 0){
+                System.out.println("ERROR: You have not created any Physical Volumes or Volume Groups.");
+            }
+            else if(pvList.size() == 0){
+                System.out.println("ERROR: You have not created any Physical Volumes. ");
+            }
+            else{
+                System.out.println("ERROR: You have not created any Volume Groups.");
             }
         }
     }
